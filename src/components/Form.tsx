@@ -2,7 +2,6 @@
 
 import { FormEvent, useState } from "react";
 import Image from "next/image";
-import { supabase } from "@/lib/supabase";
 
 type FormValues = {
   name: string;
@@ -12,6 +11,7 @@ type FormValues = {
 };
 
 const locations = ["Hyderabad", "Vijayawada", "Guntur", "Vizag"] as const;
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxn2ewKFMZCVpT06M2K5aCP_tuI1HjzRwKSZEiP8fleOfRSD9Lmk6LxcFziRmQHKujq/exec";
 
 export default function Form() {
   const [form, setForm] = useState<FormValues>({
@@ -28,51 +28,41 @@ export default function Form() {
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    // 🔴 Validation
-    if (!form.name || !form.phone || !form.location || !form.course) {
-      setStatus("❌ Please fill all fields");
-      return;
-    }
+  if (!form.name || !form.phone || !form.location || !form.course) {
+    setStatus("❌ Please fill all fields");
+    return;
+  }
 
-    if (!/^[0-9]{10}$/.test(form.phone)) {
-      setStatus("❌ Enter valid 10-digit phone number");
-      return;
-    }
+  if (!/^[0-9]{10}$/.test(form.phone)) {
+    setStatus("❌ Enter valid 10-digit phone number");
+    return;
+  }
 
-    setStatus("Submitting...");
+  setStatus("Submitting...");
 
-    // 🔗 Supabase Insert (FIXED VERSION)
-    const { data, error } = await supabase
-      .from("leads")
-      .insert([
-        {
-          name: form.name,
-          phone: form.phone,
-          location: form.location,
-          course: form.course,
-        },
-      ])
-      .select(); // ✅ IMPORTANT FIX
+  try {
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors", // 🔥 THIS FIXES EVERYTHING
+      body: JSON.stringify(form),
+    });
 
-    console.log("DATA:", data);
-    console.log("ERROR:", error);
+    setStatus("✅ Submitted successfully 🚀");
 
-    if (error) {
-      setStatus("❌ Submission failed");
-    } else {
-      setStatus("✅ Submitted successfully 🚀");
+    setForm({
+      name: "",
+      phone: "",
+      location: "",
+      course: "",
+    });
 
-      // Reset form
-      setForm({
-        name: "",
-        phone: "",
-        location: "",
-        course: "",
-      });
-    }
-  };
+  } catch (err) {
+    console.error(err);
+    setStatus("❌ Network error");
+  }
+};
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4">
@@ -105,7 +95,7 @@ export default function Form() {
 
         {/* Inputs */}
         <div className="space-y-4">
-          
+
           {/* Name */}
           <input
             value={form.name}
@@ -129,7 +119,7 @@ export default function Form() {
 
           {/* Location + Course */}
           <div className="flex flex-col gap-3 sm:grid sm:grid-cols-2">
-            
+
             <select
               value={form.location}
               onChange={(e) => updateField("location", e.target.value)}
@@ -166,9 +156,15 @@ export default function Form() {
           Submit Application
         </button>
 
-        {/* Status */}
+        {/* Status Message */}
         {status && (
-          <div className="text-center text-sm text-green-600 bg-green-50 border border-green-200 rounded-lg py-2">
+          <div
+            className={`text-center text-sm rounded-lg py-2 border ${
+              status.includes("❌")
+                ? "text-red-600 bg-red-50 border-red-200"
+                : "text-green-600 bg-green-50 border-green-200"
+            }`}
+          >
             {status}
           </div>
         )}
