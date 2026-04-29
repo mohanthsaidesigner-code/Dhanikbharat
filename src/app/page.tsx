@@ -20,14 +20,14 @@ export default function Page() {
       />
 
       {/* APPLY BUTTON */}
-      <div className="absolute bottom-[28%] left-1/2 -translate-x-1/2 w-[85%] z-10">
+      <div className="absolute bottom-[27%]  left-1/2 -translate-x-1/2 w-[85%] z-10">
 
         <button
           onClick={() => setOpen(true)}
-          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 rounded-full font-semibold shadow-lg flex items-center justify-center gap-3 active:scale-[0.98] transition"
+          className="w-full bg-gradient-to-r from-orange-500 to-orange-600  text-white py-5 rounded-md font-semibold shadow-lg flex items-center justify-center gap-3 active:scale-[0.98] transition"
         >
           Apply Now
-          <span className="bg-white text-orange-500 rounded-full w-7 h-7 flex items-center justify-center">
+          <span className="bg-white text-orange-500 rounded-full w-8 h-8 flex items-center justify-center">
             →
           </span>
         </button>
