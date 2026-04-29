@@ -173,7 +173,7 @@ function AdmissionForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3 p-1">
       <div className="text-center mb-1">
-        <p className="font-bold text-slate-900 text-lg">Apply in 2 minutes</p>
+        <p className="font-bold text-slate-900 text-lg">Enter Your Details</p>
         <p className="text-xs text-slate-400">Free counselling • No commitment</p>
       </div>
 
