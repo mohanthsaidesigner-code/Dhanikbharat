@@ -211,7 +211,7 @@ function AdmissionForm({
       >
         <option value="">Select Course *</option>
         <option value="MPC">MPC — IIT-JEE</option>
-        <option value="BIPC">BIPC — NEET</option>
+        <option value="BiPC">BiPC — NEET</option>
       </select>
 
       {status === "error" && (
@@ -260,15 +260,15 @@ export default function LandingPage() {
     <div className="relative bg-slate-50 min-h-screen max-w-md mx-auto font-sans pb-28">
 
       {/* ── HERO ── */}
-      <section className="relative bg-gradient-to-br from-orange-600 via-orange-500 to-amber-400 px-5 pt-10 pb-14 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-br from-orange-600 via-orange-500 to-amber-400 px-5 pt-10 pb-10 text-white overflow-hidden">
         {/* decorative blobs */}
         <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/4 pointer-events-none" />
 
         <div className="relative z-10 flex flex-col items-center text-center gap-4">
           {/* Logo */}
-          <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center overflow-hidden">
-            <Image src="/logoo.png" alt="Dhanik Bharat" width={56} height={56} className="object-contain" />
+          <div className="w-30 h-30 bg-white rounded-xl shadow-lg flex items-center justify-center overflow-hidden">
+            <Image src="/logoo.png" alt="Dhanik Bharat" width={95} height={95} className="object-contain" />
           </div>
 
           <Badge>🔥 Admissions Open 2026</Badge>
@@ -277,7 +277,7 @@ export default function LandingPage() {
             {...fadeUp}
             className="text-3xl font-extrabold leading-tight tracking-tight"
           >
-            Empowering Students.<br />Building Futures.
+            Empowering Students<br />Building Futures
           </motion.h1>
 
           <motion.p
@@ -296,19 +296,19 @@ export default function LandingPage() {
             Apply Now — Free Counselling
           </motion.button>
 
-          <p className="text-white/60 text-xs">⚡ Takes only 2 minutes • No fees</p>
+          <p className="text-white/60 text-xs">⚡ Takes only few seconds • No fees</p>
         </div>
       </section>
 
       {/* ── TRUST ── */}
-      <section className="px-4 -mt-6 relative z-10">
+      {/* <section className="px-4 -mt-6 relative z-10">
         <div className="grid grid-cols-2 gap-3">
           <TrustCard icon="👨‍🎓" stat="" label="Success without Stress" />
           <TrustCard icon="🏆" stat="" label="Expert Faculty" />
           <TrustCard icon="📈" stat="" label="Focused Learning" />
           <TrustCard icon="📍" stat="" label="Multi-City Campuses" />
         </div>
-      </section>
+      </section> */}
 
       {/* ── COURSES ── */}
       <section className="px-4 mt-8">
@@ -326,12 +326,12 @@ export default function LandingPage() {
             onClick={() => { setSelectedCourse("MPC"); openModal("MPC"); }}
           />
           <CourseCard
-            title="BIPC"
+            title="BiPC"
             subtitle="Biology • Physics • Chemistry"
             focus="NEET Focus"
             color="🧬"
-            selected={selectedCourse === "BIPC"}
-            onClick={() => { setSelectedCourse("BIPC"); openModal("BIPC"); }}
+            selected={selectedCourse === "BiPC"}
+            onClick={() => { setSelectedCourse("BiPC"); openModal("BiPC"); }}
           />
         </div>
       </section>
