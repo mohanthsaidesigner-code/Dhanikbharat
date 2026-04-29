@@ -288,13 +288,55 @@ export default function LandingPage() {
             Limited Seats • Expert Faculty • Result-Oriented Coaching
           </motion.p>
 
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            onClick={() => openModal()}
-            className="mt-2 w-full bg-white text-orange-600 font-extrabold py-4 rounded-2xl text-base shadow-xl active:scale-[0.97] transition"
-          >
-            Apply Now — Free Counselling
-          </motion.button>
+     <div className="relative w-full mt-2">
+  <motion.button
+    onClick={() => openModal()}
+    whileTap={{ scale: 0.95 }}
+    
+    // subtle breathing animation
+    animate={{ scale: [1, 1.03, 1] }}
+    transition={{
+      scale: {
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    }}
+
+    className="relative w-full overflow-hidden rounded-2xl bg-orange-500 text-white font-extrabold py-4 text-base shadow-xl"
+  >
+    {/* ✨ Moving Shine Layer */}
+    <motion.span
+      className="absolute inset-0"
+      animate={{ x: ["-120%", "120%"] }}
+      transition={{
+        duration: 2.2,
+        repeat: Infinity,
+        ease: "linear",
+      }}
+      style={{
+        background:
+          "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.6), transparent 70%)",
+      }}
+    />
+
+    {/* Button Content */}
+    <span className="relative z-10 flex items-center justify-center gap-2">
+      Apply Now — Free Counselling
+
+      {/* ➜ subtle arrow motion */}
+      <motion.span
+        animate={{ x: [0, 6, 0] }}
+        transition={{
+          duration: 1.2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+         </motion.span>
+    </span>
+  </motion.button>
+</div>
 
           <p className="text-white/60 text-xs">⚡ Takes only few seconds • No fees</p>
         </div>
