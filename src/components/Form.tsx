@@ -119,7 +119,7 @@ export default function Form() {
       {/* FORM */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white rounded-2xl shadow-md p-10 space-y-60 "
+        className="w-full max-w-md bg-white rounded-2xl shadow-md p-10 space-y-10 "
       >
         {/* Header */}
         <div className="text-center space-y-1">

@@ -20,7 +20,7 @@ export default function Page() {
       />
 
       {/* APPLY BUTTON */}
-      <div className="absolute bottom-[31%]  left-1/2 -translate-x-1/2 w-[85%] z-10">
+      <div className="absolute bottom-[30%]  left-1/2 -translate-x-1/2 w-[85%] z-10">
 
         <button
           onClick={() => setOpen(true)}
