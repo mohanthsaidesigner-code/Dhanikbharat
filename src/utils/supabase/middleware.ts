@@ -4,6 +4,12 @@ import { type NextRequest, NextResponse } from "next/server";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
+if (!supabaseUrl || !supabaseKey) {
+  throw new Error(
+    "Missing Supabase env vars: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY are required."
+  );
+}
+
 export const createClient = (request: NextRequest) => {
   // Create an unmodified response
   let supabaseResponse = NextResponse.next({
@@ -13,8 +19,8 @@ export const createClient = (request: NextRequest) => {
   });
 
   const supabase = createServerClient(
-    supabaseUrl!,
-    supabaseKey!,
+    supabaseUrl,
+    supabaseKey,
     {
       cookies: {
         getAll() {
