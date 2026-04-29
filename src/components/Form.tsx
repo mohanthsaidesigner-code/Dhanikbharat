@@ -11,7 +11,9 @@ type FormValues = {
 };
 
 const locations = ["Hyderabad", "Vijayawada", "Guntur", "Vizag"] as const;
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxn2ewKFMZCVpT06M2K5aCP_tuI1HjzRwKSZEiP8fleOfRSD9Lmk6LxcFziRmQHKujq/exec";
+
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxn2ewKFMZCVpT06M2K5aCP_tuI1HjzRwKSZEiP8fleOfRSD9Lmk6LxcFziRmQHKujq/exec";
 
 export default function Form() {
   const [form, setForm] = useState<FormValues>({
@@ -22,58 +24,94 @@ export default function Form() {
   });
 
   const [status, setStatus] = useState("");
+  const [submitted, setSubmitted] = useState(false); // 🔥 new state
 
   const updateField = (field: keyof FormValues, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!form.name || !form.phone || !form.location || !form.course) {
-    setStatus("❌ Please fill all fields");
-    return;
+    // Validation
+    if (!form.name || !form.phone || !form.location || !form.course) {
+      setStatus("❌ Please fill all fields");
+      return;
+    }
+
+    if (!/^[0-9]{10}$/.test(form.phone)) {
+      setStatus("❌ Enter valid 10-digit phone number");
+      return;
+    }
+
+    setStatus("Submitting...");
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors", // important for Google script
+        body: JSON.stringify(form),
+      });
+
+      // 🔥 show success screen
+      setSubmitted(true);
+
+      // reset form
+      setForm({
+        name: "",
+        phone: "",
+        location: "",
+        course: "",
+      });
+
+    } catch (err) {
+      console.error(err);
+      setStatus("❌ Network error");
+    }
+  };
+
+  // 🔥 SUCCESS SCREEN
+  if (submitted) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white px-6 text-center">
+
+        <Image
+          src="/logoo.png"
+          alt="Dhanik Bharat"
+          width={100}
+          height={100}
+          className="mb-6"
+        />
+
+        <h2 className="text-2xl font-semibold text-slate-900 mb-3">
+          Thank You! 🎉
+        </h2>
+
+        <p className="text-slate-600 text-sm max-w-xs leading-relaxed">
+          Your application has been submitted successfully. <br />
+          Our team will reach out to you shortly.
+        </p>
+
+        <button
+          onClick={() => setSubmitted(false)}
+          className="mt-6 px-6 py-3 bg-orange-500 text-white rounded-full text-sm font-semibold"
+        >
+          Submit Another Response
+        </button>
+      </div>
+    );
   }
-
-  if (!/^[0-9]{10}$/.test(form.phone)) {
-    setStatus("❌ Enter valid 10-digit phone number");
-    return;
-  }
-
-  setStatus("Submitting...");
-
-  try {
-    await fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors", // 🔥 THIS FIXES EVERYTHING
-      body: JSON.stringify(form),
-    });
-
-    setStatus("✅ Submitted successfully 🚀");
-
-    setForm({
-      name: "",
-      phone: "",
-      location: "",
-      course: "",
-    });
-
-  } catch (err) {
-    console.error(err);
-    setStatus("❌ Network error");
-  }
-};
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-2">
 
       {/* LOGO */}
       <div className="mb-4">
         <Image
-          src="/logo.png"
+          src="/logoo.png"
           alt="Dhanik Bharat"
-          width={70}
-          height={70}
+          width={90}
+          height={90}
           className="mx-auto"
         />
       </div>
@@ -81,7 +119,7 @@ export default function Form() {
       {/* FORM */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white rounded-2xl shadow-md p-5 space-y-5"
+        className="w-full max-w-md bg-white rounded-2xl shadow-md p-5 space-y-7"
       >
         {/* Header */}
         <div className="text-center space-y-1">
@@ -102,7 +140,7 @@ export default function Form() {
             onChange={(e) => updateField("name", e.target.value)}
             placeholder="Student Name"
             required
-            className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
+            className="w-full rounded-lg border border-slate-200 px-4 py-5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
           />
 
           {/* Phone */}
@@ -114,7 +152,7 @@ export default function Form() {
             required
             pattern="[0-9]{10}"
             maxLength={10}
-            className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
+            className="w-full rounded-lg border border-slate-200 px-4 py-5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
           />
 
           {/* Location + Course */}
@@ -124,7 +162,7 @@ export default function Form() {
               value={form.location}
               onChange={(e) => updateField("location", e.target.value)}
               required
-              className="w-full rounded-lg border border-slate-200 px-3 py-3 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
+              className="w-full rounded-lg border border-slate-200 px-3 py-5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
             >
               <option value="">Select Location</option>
               {locations.map((loc) => (
@@ -138,7 +176,7 @@ export default function Form() {
               value={form.course}
               onChange={(e) => updateField("course", e.target.value)}
               required
-              className="w-full rounded-lg border border-slate-200 px-3 py-3 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
+              className="w-full rounded-lg border border-slate-200 px-3 py-5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
             >
               <option value="">Select Course</option>
               <option value="MPC">MPC</option>
@@ -156,7 +194,7 @@ export default function Form() {
           Submit Application
         </button>
 
-        {/* Status Message */}
+        {/* Status */}
         {status && (
           <div
             className={`text-center text-sm rounded-lg py-2 border ${
