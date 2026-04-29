@@ -119,7 +119,7 @@ export default function Form() {
       {/* FORM */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white rounded-2xl shadow-md p-10 space-y-10 "
+        className="w-full max-w-md bg-white rounded-2xl shadow-md p-6 space-y-10 "
       >
         {/* Header */}
         <div className="text-center space-y-1">
@@ -140,7 +140,7 @@ export default function Form() {
             onChange={(e) => updateField("name", e.target.value)}
             placeholder="Student Name"
             required
-            className="w-full rounded-lg border border-slate-200 px-4 py-5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
+            className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
           />
 
           {/* Phone */}
@@ -152,7 +152,7 @@ export default function Form() {
             required
             pattern="[0-9]{10}"
             maxLength={10}
-            className="w-full rounded-lg border border-slate-200 px-4 py-5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
+            className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
           />
 
           {/* Location + Course */}
@@ -162,7 +162,7 @@ export default function Form() {
               value={form.location}
               onChange={(e) => updateField("location", e.target.value)}
               required
-              className="w-full rounded-lg border border-slate-200 px-3 py-5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
+              className="w-full rounded-lg border border-slate-200 px-3 py-3 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
             >
               <option value="">Select Location</option>
               {locations.map((loc) => (
@@ -176,7 +176,7 @@ export default function Form() {
               value={form.course}
               onChange={(e) => updateField("course", e.target.value)}
               required
-              className="w-full rounded-lg border border-slate-200 px-3 py-5 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
+              className="w-full rounded-lg border border-slate-200 px-3 py-3 text-sm focus:border-orange-500 focus:ring-1 focus:ring-orange-300 outline-none"
             >
               <option value="">Select Course</option>
               <option value="MPC">MPC</option>
